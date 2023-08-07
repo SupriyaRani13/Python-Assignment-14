@@ -1,0 +1,347 @@
+Python Assignment - 14
+
+1. What does RGBA stand for?
+
+Sol: RGBA stands for the same concept as mentioned before: "Red Green Blue Alpha." It is used to represent colors with transparency 
+     in various graphic libraries and applications.
+
+   In Python, the RGBA color model is often represented as a tuple with four values: (R, G, B, A), where:-
+
+   R: Represents the intensity of the red color channel, typically ranging from 0 to 255.
+   G: Represents the intensity of the green color channel, also ranging from 0 to 255.
+   B: Represents the intensity of the blue color channel, again ranging from 0 to 255.
+   A: Represents the alpha channel, which controls the transparency of the color. The alpha value usually ranges from 0 (fully transparent) 
+      to 255 (fully opaque).
+
+Eg - If we want to represent the color red with full opacity, you would use the RGBA tuple (255, 0, 0, 255). 
+     If we  want to represent a semi-transparent blue, you could use (0, 0, 255, 128), where the alpha value 128 indicates 50% opacity.
+
+
+2. From the Pillow module, how do you get the RGBA value of any images?
+
+Sol: To get the RGBA (Red Green Blue Alpha) value of any image using the Pillow module in Python, you can use the following steps:-
+
+
+   1. Install Pillow if you haven't already. You can install it using pip:-
+      
+      pip install pillow
+   
+   2. Import the necessary modules from Pillow:-
+  
+      from PIL import Image
+
+   3. Open the image using the Image.open() method:-
+ 
+      image_path = "path/to/your/image.png"  # Replace with the actual 
+      path to our image
+      image = Image.open(image_path)
+
+   4. Convert the image to RGBA mode if it's not already in that mode. Some images might be in different color modes (e.g., RGB, L, etc.),
+      but we need it in RGBA mode to get the alpha channel:-
+
+      if image.mode != 'RGBA':
+      image = image.convert('RGBA')
+
+   5. Get the RGBA value of a pixel. You can use the getpixel() method to retrieve the RGBA value of any pixel in the image.
+      The getpixel() method takes the (x, y) coordinates of the pixel as arguments and returns a tuple containing the RGBA values:-
+
+      x = 100  # Replace with the X-coordinate of the pixel you want to retrieve
+      y = 200  # Replace with the Y-coordinate of the pixel you want to retrieve
+
+     rgba_value = image.getpixel((x, y))
+     print(rgba_value)
+
+
+3. What is a box tuple, and how does it work?
+
+Sol: In the context of the Pillow module in Python, a "box tuple" is a tuple that represents a rectangular region within an image.
+     It is commonly used in various image manipulation functions and methods provided by Pillow. The box tuple is used to define the 
+     boundaries of a specific rectangular region within the image, allowing you to perform operations on that specific area.
+
+    The box tuple has a simple structure and consists of four integer values in the following order:-
+    
+     (left, upper, right, lower)
+
+     left: The X-coordinate of the left edge of the rectangle.
+     upper: The Y-coordinate of the upper edge of the rectangle.
+     right: The X-coordinate of the right edge of the rectangle.
+     lower: The Y-coordinate of the lower edge of the rectangle.
+
+
+4. Use your image and load in notebook then, How can you find out the width and height of an
+   Image object?
+
+Sol: Approach 1:-
+
+     PIL is the Python Imaging Library is an important module which is used for image processing. It supports many formats of images such as 
+     jpeg,png,ppm,tiff,bmp,gif.  It provides many image editing capabilities. The Image module provides a class with the same
+     name which is used to represent a PIL image. 
+
+    PIL.Image.open() is used to open the image and then .width and .height property of Image are used to get the height and width of the image.
+    The same results can be obtained by using .size property.
+
+    To use pillow library run the following command:-
+    pip install pillow
+
+   Eg - # import required module
+        from PIL import Image
+  
+       # get image
+       filepath = "geeksforgeeks.png"
+       img = Image.open(filepath)
+  
+       # get width and height
+       width = img.width
+       height = img.height
+  
+      # display width and height
+      print("The height of the image is: ", height)
+
+  Approach 2:-
+
+   OpenCV in python is a library which is used for computer vision, image processing and much more.  The imread(filepath) function is used to load an 
+   image from the file path specified. The .shape stores a tuple of height, width and no of channels for each pixel. The .shape[:2] will get the height
+   and width of the image.
+
+  To install OpenCV run the following command:-
+  pip install opencv-python
+
+
+   Eg - # import required module
+        import cv2
+  
+        # get image
+        filepath = "geeksforgeeks.jpg"
+        image = cv2.imread(filepath)
+        #print(image.shape)
+  
+        # get width and height
+        height, width = image.shape[:2]
+  
+       # display width and height
+       print("The height of the image is: ", height)
+       print("The width of the image is: ", width)
+
+
+5. What method would you call to get Image object for a 100×100 image, excluding the lower-left
+   quarter of it?
+
+Sol: To exclude the lower-left quarter of a 100×100 image and obtain a new Image object representing the remaining part, we can use the crop() 
+     method from the Pillow module in Python. The crop() method allows you to extract a rectangular region from an image defined by a box tuple.
+
+    Eg - from PIL import Image
+
+        # Load the original image
+        image_path = "path/to/your/image.jpg"  # Replace with the actual path to your image
+        image = Image.open(image_path)
+
+        # Get the width and height of the original image
+        width, height = image.size
+
+        # Define the box tuple for the region to exclude (left, upper, right, lower)
+        box_to_exclude = (0, height // 2, width // 2, height)
+
+        # Crop the image to exclude the lower-left quarter
+        cropped_image = image.crop(box_to_exclude)
+
+        # Save the cropped image
+        cropped_image.save("path/to/save/cropped_image.jpg")
+
+In this example, we load the original image, determine its width and height, and then define the box_to_exclude as (0, height // 2, width // 2, height), which represents the lower-left quarter of the image. The crop() method is then used to extract the remaining part (the upper-right three-quarters) of the image, and the cropped image is saved to a new file.
+
+
+
+6. After making changes to an Image object, how could you save it as an image file?
+
+Sol: After making changes to an Image object using the Pillow module in Python, we can save it as an image file using the save() method.
+     The save() method allows you to save the modified image to a new file on your system.
+
+    Eg - from PIL import Image
+
+       # Load the original image
+       image_path = "path/to/your/image.jpg"  # Replace with the actual path to your image
+       image = Image.open(image_path)
+
+       # Make changes to the image (e.g., crop, resize, rotate, etc.)
+
+       # Save the modified image as a new file
+       new_image_path = "path/to/save/modified_image.jpg"  # Replace with the desired output file path
+       image.save(new_image_path)
+ 
+
+   In the code above, we first load the original image using Image.open(). Then, we apply the desired changes to the image, such as 
+   cropping, resizing, rotating, or any other operations you performed on the image object.
+
+
+7. What module contains Pillow’s shape-drawing code?
+
+Sol:  Pillow's shape-drawing code is contained in the ImageDraw module. The ImageDraw module in the Pillow library provides a class called 
+      ImageDraw that allows you to draw various shapes and text on an Image object.
+
+     Eg - from PIL import Image, ImageDraw
+
+         # Load the image
+         image_path = "path/to/your/image.jpg"  # Replace with the actual path to your image
+         image = Image.open(image_path)
+
+         # Create an ImageDraw object associated with the image
+         draw = ImageDraw.Draw(image)
+
+         # Draw a rectangle on the image
+         rect_box = (50, 50, 150, 150)  # (left, upper, right, lower)
+         draw.rectangle(rect_box, outline="red")
+
+         # Draw a filled ellipse on the image
+         ellipse_box = (200, 50, 300, 150)  # (left, upper, right, lower)
+         draw.ellipse(ellipse_box, fill="blue")
+
+        # Draw a line on the image
+        line_points = [(350, 50), (450, 150)]
+        draw.line(line_points, fill="green", width=3)
+
+        # Save the modified image
+        modified_image_path = "path/to/save/modified_image.jpg"  # Replace with the desired output file path
+        image.save(modified_image_path)
+
+      In this example, we import both the Image and ImageDraw modules from Pillow. After loading the image, we create an ImageDraw object 
+      named draw associated with the loaded image. Using this draw object, we can draw various shapes on the image, such as rectangles, ellipses, and lines.
+
+
+8. Image objects do not have drawing methods. What kind of object does? How do you get this kind
+   of object?
+
+
+Sol: Image objects themselves do not have drawing methods. Instead, drawing methods are available through the ImageDraw object, which
+     is obtained by calling the ImageDraw.Draw() method.
+
+    To get the ImageDraw object for a given Image object, you need to call the ImageDraw.Draw() method, passing the Image as an argument.
+    This will create an ImageDraw object associated with the given Image, allowing you to draw various shapes and text on it.
+
+    Here's how you can obtain the ImageDraw object and draw on an image:-
+
+    Eg - from PIL import Image, ImageDraw
+
+        # Load the image
+        image_path = "path/to/your/image.jpg"  # Replace with the actual path to your image
+        image = Image.open(image_path)
+
+        # Get the ImageDraw object associated with the image
+        draw = ImageDraw.Draw(image)
+
+        # Now you can use the 'draw' object to perform shape-drawing operations
+        rect_box = (50, 50, 150, 150)  # (left, upper, right, lower)
+        draw.rectangle(rect_box, outline="red")
+
+       ellipse_box = (200, 50, 300, 150)  # (left, upper, right, lower)
+       draw.ellipse(ellipse_box, fill="blue")
+
+      line_points = [(350, 50), (450, 150)]
+      draw.line(line_points, fill="green", width=3)
+
+      # Save the modified image
+      modified_image_path = "path/to/save/modified_image.jpg"  # Replace with the desired output file path
+      image.save(modified_image_path)
+
+
+    In this updated example, we import both the Image and ImageDraw modules from Pillow. After loading the image, we create an ImageDraw object
+    named draw associated with the loaded image by calling ImageDraw.Draw(image). Using this draw object, we can now draw various shapes, such
+    as rectangles, ellipses, and lines, on the image. The modified image is then saved to the specified output file path as before.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
